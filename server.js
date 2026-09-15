@@ -4,3 +4,7 @@
 //              password : mot de passe de cet utilisateur
 //              bdd : nom de la bdd
 // La valeur de retour est TRUE si la connexion s'est effectué, sinon renvoyer le message d'erreur
+
+const express = require('express')
+const app = new express()
+
