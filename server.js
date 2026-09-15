@@ -8,14 +8,20 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = 8000; // Le port sur lequel votre serveur écoutera
+const port = 8000;
 
-// Route d'exemple
 app.get('/', (req, res) => {
   res.sendFile("index.html", {root: path.join(__dirname, "WEB")});
 });
 
-// Démarrer le serveur
+app.get('/login', (req, res) => {
+    res.sendFile("login.html", {root: path.join(__dirname, "WEB")});
+});
+
+app.get('/signup', (req, res) => {
+    res.sendFile("signup.html", {root: path.join(__dirname, "WEB")});
+});
+
 app.listen(port, () => {
   console.log(`Le serveur est en écoute sur le port ${port}`);
 });
