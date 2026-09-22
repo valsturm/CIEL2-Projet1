@@ -1,27 +1,19 @@
-const { response } = require("express");
+const button = document.getElementById('buttonId');
+button.addEventListener('click', () => {
+    const username = document.getElementById("login").value;
+    const mdp = document.getElementById("login").value;
+    const body = JSON.stringify({username, mdp});
 
-var indentifiant = document.getElementById('buttonId');
-buttonId.addEventListener('click', function(){
-    let loginInputValue = document.getElementById('login').value;
-
-    let donnesAEnvoyer = {
-        login: loginInputValue
-    };
-
-    fetch('/register', {
-
+    fetch('/api/register', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify(donnesAEnvoyer)
+        body: {
+            body
+        }
+    }).then(res => res.json())
+    .catch((error, res) => {
+        console.error(error, res);
     })
-    .then(res => res.json())
-    .then(data => {
-        console.log('succes', data);
-        alert(data.message);
-    })
-    .catch((error) => {
-        console.error('Erreur:', error);
-    });
 });
