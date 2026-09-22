@@ -26,4 +26,11 @@ app.listen(port, () => {
   console.log(`Le serveur est en écoute sur le port ${port}`);
 });
 
+app.post('/resgister', (req, res) =>{
+
+let mesDonnees = req.boby;
+console.log(mesDonnees);
+res.json({message: "Données reçu avec succes ! "})
+
+});
 
