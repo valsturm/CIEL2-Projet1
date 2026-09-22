@@ -1,11 +1,28 @@
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
+const mysql = require('mysql');
+require('dotenv').config();
+
 const app = express();
-const port = 8000;
+
+const PORT = 8000;
 
 app.use(express.static(__dirname + 'WEB'));
 app.use(cors());
+
+// BDD
+const bdd = mysql.createConnection({
+  host: process.env.BDDHOST,
+  user: process.env.BDDUSER,
+  password: process.env.BDDPASSWORD,
+  database: process.env.BDDDATABASE
+});
+
+bdd.connect((err) => {
+  if (err) { console.error(err); return; }
+  console.log("Connecté à la BDD");
+})
 
 
 // Fichiers
@@ -49,7 +66,7 @@ app.post('/api/deleteaccount', (req, res) => {
 
 
 // App listen
-app.listen(port, () => {
-  console.log(`Le serveur est en écoute sur le port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Le serveur est en écoute sur le port ${PORT}`);
 });
 
