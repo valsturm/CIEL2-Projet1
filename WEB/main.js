@@ -4,6 +4,14 @@ buttonInscription.addEventListener('click', () =>{
     const password = document.getElementById('idPassword').value;
     const confirmPassword = document.getElementById('confirmation').value;
 
+    const pattern = /((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,64})/;
+    if (pattern.test(password)) {
+        console.log("nickel");
+    } else {
+        console.log("pas nickel");
+        return;
+    }
+
     if(password != confirmPassword){
 
         console.log("mots de passe different")
