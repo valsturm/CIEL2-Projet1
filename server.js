@@ -11,6 +11,7 @@ const PORT = 8000; // Sur le port 8000
 
 app.use(express.static(__dirname + 'WEB')); 
 app.use(cors());
+app.use(express.json());
 
 // BDD
 const bdd = mysql.createConnection({
@@ -45,8 +46,27 @@ app.get('/main.js', (req, res) => { res.sendFile("main.js", {root: path.join(__d
 
 //Apis
 app.post('/api/signup', (req, res) => {
-  console.log(req.body);
-  return res.json({"message": req.body});
+  bdd.query("SELECT * FROM users WHERE username = ?;", [req.body.username], (err, results) => {
+    if (err) { 
+      console.log(err);
+      return res.status(500).json({ error: err.message })
+    }
+
+    if (results.length > 0) {
+      return res.json({"message": "Username already taken"})
+    }
+
+    bdd.query("INSERT INTO users (username, hashed_password) VALUES (?, ?);", [req.body.username, req.body.password], (err, results) => {
+      if (err) { 
+        console.log(err);
+        return res.status(500).json({ error: err.message })
+      }
+
+      return res.json({"message": "Account created"});
+    })
+  })
+
+  
 });
 
 app.post('/api/login', (req, res) => {
