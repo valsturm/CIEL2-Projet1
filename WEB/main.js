@@ -58,7 +58,6 @@ buttonInscription.addEventListener('click', () =>{
     })
 });
 
-/*
 const connexionButton = document.getElementById('buttonId');
 connexionButton.addEventListener('click', () =>{
     const loginUsername = document.getElementById('login').value;
@@ -79,4 +78,3 @@ connexionButton.addEventListener('click', () =>{
         console.error(error, res);
     })
 });
-*/
