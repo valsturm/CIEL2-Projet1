@@ -1,7 +1,7 @@
 const button = document.getElementById('buttonId');
 button.addEventListener('click', () => {
     const username = document.getElementById("login").value;
-    const mdp = document.getElementById("login").value;
+    const mdp = document.getElementById("password").value;
     const body = JSON.stringify({username, mdp});
 
     fetch('/api/register', {
