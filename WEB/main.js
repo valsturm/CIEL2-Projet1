@@ -4,19 +4,27 @@ buttonInscription.addEventListener('click', () =>{
     const password = document.getElementById('idPassword').value;
     const confirmPassword = document.getElementById('confirmation').value;
 
-    const pattern = /((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,64})/;
-    if (pattern.test(password)) {
-        console.log("nickel");
-    } else {
-        console.log("pas nickel");
-        return;
-    }
+    const errorText = document.getElementById("error");
 
-    if(password != confirmPassword){
+    const usernamePattern = /.{4,16}/
+    const passwordPattern = /((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,64})/;
 
-        console.log("mots de passe different")
-    }
-    else(console.log("mots de passe valide"))
+    console.log(usernamePattern.test(password));
+    console.log(passwordPattern.test(password));
+    console.log(password != confirmPassword);
+
+    if (!usernamePattern.test(password)) { 
+        errorText.textContent = "Username invalide"; 
+        return; 
+    };
+    if (!passwordPattern.test(password)) { 
+        errorText.textContent = "Mot de passe invalide"; 
+        return; 
+    };
+    if (password != confirmPassword) { 
+        errorText.textContent = "Les mots de passe ne correspondent pas"; 
+        return; 
+    };
 
     const body = JSON.stringify({username, password});
 
@@ -34,8 +42,9 @@ buttonInscription.addEventListener('click', () =>{
     })
 });
 
-const connexionButton = document.getElementById('login');
-Login.addEventListener('click', () =>{
+/*
+const connexionButton = document.getElementById('buttonId');
+connexionButton.addEventListener('click', () =>{
     const loginUsername = document.getElementById('login').value;
     const loginPassword = document.getElementById('password').value;
 
@@ -54,3 +63,4 @@ Login.addEventListener('click', () =>{
         console.error(error, res);
     })
 });
+*/
