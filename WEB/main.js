@@ -7,6 +7,10 @@
 - Fetch l'api
 
 Si il y a une erreur, l'afficher dans la console ET l'afficher sur l'écran de l'utilisateur
+
+Format des variables :
+    - Constante : VARIABLE_VARIABLE
+    - Variable : variableVariable
 */
 
 
@@ -18,18 +22,18 @@ buttonInscription.addEventListener('click', () =>{
 
     const errorText = document.getElementById("error");
 
-    const usernamePattern = /.{4,16}/
-    const passwordPattern = /((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,64})/;
+    const USERNAME_PATTERN = /.{4,16}/
+    const PASSWORD_PATTERN = /((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,64})/;
 
-    console.log(usernamePattern.test(password));
-    console.log(passwordPattern.test(password));
+    console.log(USERNAME_PATTERN.test(password));
+    console.log(PASSWORD_PATTERN.test(password));
     console.log(password != confirmPassword);
 
-    if (!usernamePattern.test(password)) { 
+    if (!USERNAME_PATTERN.test(password)) { 
         errorText.textContent = "Username invalide"; 
         return; 
     };
-    if (!passwordPattern.test(password)) { 
+    if (!PASSWORD_PATTERN.test(password)) { 
         errorText.textContent = "Mot de passe invalide"; 
         return; 
     };
