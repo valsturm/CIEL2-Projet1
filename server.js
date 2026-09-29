@@ -1,14 +1,15 @@
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const mysql = require('mysql');
-require('dotenv').config();
+// Les dépendances du projet
+const express = require('express'); // Express pour le serveur web
+const path = require('path'); // Path pour les chemins
+const cors = require('cors'); // Cors pour cors
+const mysql = require('mysql'); // Mysql pour la bdd
+require('dotenv').config(); // Dotenv pour le .env
 
-const app = express();
+const app = express(); // On crée une app express
 
-const PORT = 8000;
+const PORT = 8000; // Sur le port 8000
 
-app.use(express.static(__dirname + 'WEB'));
+app.use(express.static(__dirname + 'WEB')); 
 app.use(cors());
 
 // BDD
@@ -17,12 +18,12 @@ const bdd = mysql.createConnection({
   user: process.env.BDDUSER,
   password: process.env.BDDPASSWORD,
   database: process.env.BDDDATABASE
-});
+}); // On initialise la connexion à la BDD
 
 bdd.connect((err) => {
   if (err) { console.error(err); return; }
   console.log("Connecté à la BDD");
-})
+}); // On se connecte à la BDD
 
 
 // Fichiers
@@ -42,26 +43,26 @@ app.get('/style.css', (req, res) => { res.sendFile("style.css", {root: path.join
 app.get('/main.js', (req, res) => { res.sendFile("main.js", {root: path.join(__dirname, "WEB")}); });
 
 
-//Api
+//Apis
 app.post('/api/signup', (req, res) => {
   
 });
 
 app.post('/api/login', (req, res) => {
   
-})
+});
 
 app.post('/api/changeuser', (req, res) => {
   
-})
+});
 
 app.post('/api/changepassword', (req, res) => {
   
-})
+});
 
 app.post('/api/deleteaccount', (req, res) => {
   
-})
+});
 
 
 
