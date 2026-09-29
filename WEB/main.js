@@ -17,3 +17,9 @@ button.addEventListener('click', () => {
         console.error(error, res);
     })
 });
+
+const inscriptionButton = document.getElementById('buttonInscription');
+buttonInscription.addEventListener('click', () =>{
+    const username = document.getElementById('idInscription').value;
+    const password = document.getElementById('idPassword').value;
+})
