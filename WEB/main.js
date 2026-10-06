@@ -11,11 +11,15 @@ Si il y a une erreur, l'afficher dans la console ET l'afficher sur l'écran de l
 Format des variables :
     - Constante : VARIABLE_VARIABLE
     - Variable : variableVariable
+
+Constantes :
+USERNAME_PATTERN
+PASSWORD_PATTERN
 */
 
 
 const inscriptionButton = document.getElementById('buttonInscription');
-buttonInscription.addEventListener('click', () =>{
+inscriptionButton.addEventListener('click', () =>{
     const username = document.getElementById('idInscription').value;
     const password = document.getElementById('idPassword').value;
     const confirmPassword = document.getElementById('confirmation').value;
@@ -29,7 +33,7 @@ buttonInscription.addEventListener('click', () =>{
     console.log(PASSWORD_PATTERN.test(password));
     console.log(password == confirmPassword);
 
-    if (!USERNAME_PATTERN.test(password)) { 
+    if (!USERNAME_PATTERN.test(username)) { 
         errorText.textContent = "Username invalide"; 
         return; 
     };
@@ -37,44 +41,27 @@ buttonInscription.addEventListener('click', () =>{
         errorText.textContent = "Mot de passe invalide"; 
         return; 
     };
-    if (password != confirmPassword) { 
+    if (password != confirmPassword) {
+        console.error("Les mots de passe ne correspondent pas"); 
         errorText.textContent = "Les mots de passe ne correspondent pas"; 
         return; 
     };
 
-    const body = JSON.stringify({username, password});
-
-    fetch('/api/signup', {
+    fetch('http://localhost:8000/api/signup', {
         method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
+        headers: { 
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Origin": "*"
         },
-        body: {
-            body
-        }
-    }).then(res => res.json())
-    .catch((error, res) => {
-        console.error(error, res);
+        mode: "no-cors",
+        body: JSON.stringify({"username": "test", "password": "Testtest1!"})
+    }).then(function(res) { 
+        return res.json();
+    }).then(function(data) {
+        console.log(data);
+    }).catch(function(err) {
+        console.error(err);
     })
 });
 
-const connexionButton = document.getElementById('buttonId');
-connexionButton.addEventListener('click', () =>{
-    const loginUsername = document.getElementById('login').value;
-    const loginPassword = document.getElementById('password').value;
-
-    const body = JSON.stringify({loginUsername, loginPassword});
-
-    fetch('/api/login', {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: {
-            body
-        }
-    }).then(res => res.json())
-    .catch((error, res) => {
-        console.error(error, res);
-    })
-});

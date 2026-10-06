@@ -45,7 +45,8 @@ app.get('/main.js', (req, res) => { res.sendFile("main.js", {root: path.join(__d
 
 //Apis
 app.post('/api/signup', (req, res) => {
-  
+  console.log(req.body);
+  return res.json({"message": req.body});
 });
 
 app.post('/api/login', (req, res) => {
