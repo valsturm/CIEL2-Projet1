@@ -70,6 +70,12 @@ app.post('/api/signup', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
+  bdd.query("SELECT * FROM users WHERE username = ? AND hashed_password = ?;",[req.body.username, req.body.password], (err, results) =>{
+    if (err){
+      console.log(err);
+      return res.status(500).json({ error: err.message })
+    }
+  })
   
 });
 
