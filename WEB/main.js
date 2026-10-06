@@ -27,7 +27,7 @@ buttonInscription.addEventListener('click', () =>{
 
     console.log(USERNAME_PATTERN.test(password));
     console.log(PASSWORD_PATTERN.test(password));
-    console.log(password != confirmPassword);
+    console.log(password == confirmPassword);
 
     if (!USERNAME_PATTERN.test(password)) { 
         errorText.textContent = "Username invalide"; 
