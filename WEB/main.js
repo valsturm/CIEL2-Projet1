@@ -26,13 +26,14 @@ inscriptionButton.addEventListener('click', () =>{
 
     const errorText = document.getElementById("error");
 
-    const USERNAME_PATTERN = /.{4,16}/
-    const PASSWORD_PATTERN = /((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,64})/;
+    const USERNAME_PATTERN = /^.{4,16}$/
+    const PASSWORD_PATTERN = /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\W]).{8,64})$/;
 
-    console.log(USERNAME_PATTERN.test(password));
-    console.log(PASSWORD_PATTERN.test(password));
-    console.log(password == confirmPassword);
-
+    if (password != confirmPassword) {
+        console.error("Les mots de passe ne correspondent pas"); 
+        errorText.textContent = "Les mots de passe ne correspondent pas"; 
+        return; 
+    };
     if (!USERNAME_PATTERN.test(username)) { 
         errorText.textContent = "Username invalide"; 
         return; 
@@ -41,21 +42,13 @@ inscriptionButton.addEventListener('click', () =>{
         errorText.textContent = "Mot de passe invalide"; 
         return; 
     };
-    if (password != confirmPassword) {
-        console.error("Les mots de passe ne correspondent pas"); 
-        errorText.textContent = "Les mots de passe ne correspondent pas"; 
-        return; 
-    };
 
-    fetch('http://localhost:8000/api/signup', {
+    fetch('/api/signup', {
         method: 'POST',
         headers: { 
             "Content-Type": "application/json",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Origin": "*"
         },
-        mode: "no-cors",
-        body: JSON.stringify({"username": "test", "password": "Testtest1!"})
+        body: JSON.stringify({"username": username, "password": password})
     }).then(function(res) { 
         return res.json();
     }).then(function(data) {
