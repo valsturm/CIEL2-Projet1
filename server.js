@@ -75,6 +75,8 @@ app.post('/api/login', (req, res) => {
       console.log(err);
       return res.status(500).json({ error: err.message })
     }
+
+    return res.status(500).json({error: err.message })
   })
   
 });

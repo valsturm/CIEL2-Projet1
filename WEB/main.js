@@ -58,3 +58,23 @@ inscriptionButton.addEventListener('click', () =>{
     })
 });
 
+const connexionButton = document.getElementById('loginButton').value;
+connexionButton = addEventListener('click', () =>{
+const loginUsername = document.getElementById('login').value;
+const loginPassword = document.getElementById('password').value;
+
+fetch('/api/login',{
+method: 'POST',
+headers: {
+    "Content-type": "application/json",
+},
+body: JSON.stringify({"username": loginUsername, "password": loginPassword})
+    }).then(function(res) { 
+        return res.json();
+    }).then(function(data) {
+        console.log(data);
+    }).catch(function(err) {
+        console.error(err);
+    })
+});
+
