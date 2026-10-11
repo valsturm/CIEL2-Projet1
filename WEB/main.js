@@ -76,6 +76,9 @@ body: JSON.stringify({"username": loginUsername, "password": loginPassword})
         return res.json();
     }).then(function(data) {
         console.log(data);
+        if (data.message === "Connexion réussie") {
+        window.location.href = "index";
+    }
     }).catch(function(err) {
         console.error(err);
     })

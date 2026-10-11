@@ -4,6 +4,7 @@ const path = require('path'); // Path pour les chemins
 const cors = require('cors'); // Cors pour cors
 const mysql = require('mysql'); // Mysql pour la bdd
 const bcrypt = require('bcrypt'); // Bcrypt pour le hashage des mots de passe
+const jwt = require('jsonwebtoken'); // JWT pour les tokens
 require('dotenv').config(); // Dotenv pour le .env
 
 const app = express(); // On crée une app express
@@ -78,15 +79,42 @@ app.post('/api/signup', (req, res) => {
 });
 
 app.post('/api/login', (req, res) => {
-  bdd.query("SELECT * FROM users WHERE username = ? AND hashed_password = ?;",[req.body.username, req.body.password], (err, results) =>{
-    if (err){
+  bdd.query(
+  "SELECT * FROM users WHERE username = ?;", [req.body.username], (err, results) => {
+    if (err) {
       console.log(err);
-      return res.status(500).json({ error: err.message })
-    }
+      return res.status(500).json({
+      error: err.message
+      });
+      }
 
-    return res.status(500).json({error: err.message })
-  })
-  
+  if (results.length === 0) {
+    return res.status(401).json({
+    error: "Utilisateur introuvable"
+    });
+  }
+  bcrypt.compare(
+  req.body.password,
+  results[0].hashed_password,
+  (err, isMatch) => {
+
+  if (err) {
+   console.log(err);
+    return res.status(500).json({
+      error: err.message
+      });
+  }
+  if (!isMatch) {
+    return res.status(401).json({
+     error: "Mot de passe incorrect"
+      });
+ }
+     return res.json({
+       message: "Connexion réussie"
+       });
+      });
+  }
+  );
 });
 
 app.post('/api/changeuser', (req, res) => {
