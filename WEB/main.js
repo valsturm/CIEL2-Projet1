@@ -53,6 +53,9 @@ inscriptionButton.addEventListener('click', () =>{
         return res.json();
     }).then(function(data) {
         console.log(data);
+        if (data.message === "Account created") {
+        window.location.href = "login";
+    }
     }).catch(function(err) {
         console.error(err);
     })

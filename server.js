@@ -3,6 +3,7 @@ const express = require('express'); // Express pour le serveur web
 const path = require('path'); // Path pour les chemins
 const cors = require('cors'); // Cors pour cors
 const mysql = require('mysql'); // Mysql pour la bdd
+const bcrypt = require('bcrypt'); // Bcrypt pour le hashage des mots de passe
 require('dotenv').config(); // Dotenv pour le .env
 
 const app = express(); // On crée une app express
@@ -56,14 +57,21 @@ app.post('/api/signup', (req, res) => {
       return res.json({"message": "Username already taken"})
     }
 
-    bdd.query("INSERT INTO users (username, hashed_password) VALUES (?, ?);", [req.body.username, req.body.password], (err, results) => {
-      if (err) { 
+    bcrypt.hash(req.body.password, 10, (err, hashed_password) => {
+      if (err) {
         console.log(err);
         return res.status(500).json({ error: err.message })
       }
 
+      bdd.query("INSERT INTO users (username, hashed_password) VALUES (?, ?);", [req.body.username, hashed_password], (err, results) => {
+        if (err) { 
+          console.log(err);
+          return res.status(500).json({ error: err.message })
+      }
+
       return res.json({"message": "Account created"});
     })
+  })
   })
 
   
