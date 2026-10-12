@@ -40,6 +40,22 @@ app.get('/signup', (req, res) => {
   res.sendFile("signup.html", {root: path.join(__dirname, "WEB")});
 });
 
+function verifierToken(req, res, next) {
+  const header = req.headers['authorization'];
+  const token = header && header.split(' ')[1];
+
+  if (!token) {
+    return res.status(401).json({ error: "Token manquant" });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) {
+      return res.status(403).json({ error: "Token invalide ou expiré" });
+    }
+    req.user = user; // contient { id, username }
+    next();
+  });
+}
 
 // Pour que le serveur puisse charger les fichiers sinon c'est kaput
 app.get('/style.css', (req, res) => { res.sendFile("style.css", {root: path.join(__dirname, "WEB")}); });
@@ -109,12 +125,19 @@ app.post('/api/login', (req, res) => {
      error: "Mot de passe incorrect"
       });
  }
-     return res.json({
-       message: "Connexion réussie"
-       });
-      });
-  }
-  );
+      const token = jwt.sign(
+        { id: results[0].id, username: results[0].username },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+      );
+
+      return res.json({ message: "Connexion réussie", token: token });
+    });
+  });
+});
+
+app.get('/api/me', verifierToken, (req, res) => {
+  res.json({ username: req.user.username });
 });
 
 app.post('/api/changeuser', (req, res) => {

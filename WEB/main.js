@@ -84,3 +84,34 @@ body: JSON.stringify({"username": loginUsername, "password": loginPassword})
     })
 });
 
+// Appelle une route protégée avec le token
+function verifierConnexion() {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        console.log("Pas connecté");
+        return;
+    }
+
+    fetch('/api/me', {
+        headers: { "Authorization": "Bearer " + token }
+    }).then(function(res) {
+        return res.json();
+    }).then(function(data) {
+        if (data.error) {
+            localStorage.removeItem("token"); // token expiré ou faux
+            return;
+        }
+        console.log("Connecté en tant que " + data.username);
+    }).catch(function(err) {
+        console.error(err);
+    });
+}
+
+verifierConnexion();
+
+// Déconnexion : il suffit de supprimer le token
+function deconnexion() {
+    localStorage.removeItem("token");
+    window.location.href = "login";
+}
