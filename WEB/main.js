@@ -130,6 +130,7 @@ if (blocConnecte) {
             blocVisiteur.hidden = true;
             blocConnecte.hidden = false;
             document.getElementById('nomUtilisateur').textContent = data.username;
+            chargerUtilisateurs();
         }).catch(function (err) {
             console.error(err);
         });
@@ -148,6 +149,7 @@ if (blocConnecte) {
             localStorage.setItem("token", data.token);
             document.getElementById('nomUtilisateur').textContent = newUsername;
             message.textContent = data.message;
+            chargerUtilisateurs();
         });
     });
 
@@ -172,4 +174,27 @@ if (blocConnecte) {
             deconnexion();
         });
     });
+
+    // Affiche la liste des utilisateurs
+    function chargerUtilisateurs() {
+        fetch('/api/users', {
+            headers: { "Authorization": "Bearer " + localStorage.getItem("token") }
+        }).then(function (res) {
+            return res.json();
+        }).then(function (data) {
+            if (data.error) {
+                return;
+            }
+            const liste = document.getElementById('listeUtilisateurs');
+            liste.innerHTML = ""; // on vide la liste avant de la remplir
+
+            data.users.forEach(function (user) {
+                const li = document.createElement('li');
+                li.textContent = user.username;
+                liste.appendChild(li);
+            });
+        }).catch(function (err) {
+            console.error(err);
+        });
+    }
 }

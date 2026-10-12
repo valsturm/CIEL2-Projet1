@@ -141,6 +141,14 @@ app.post('/api/login', (req, res) => {
 
 app.get('/api/me', verifierToken, (req, res) => {
   res.json({ username: req.user.username });
+
+  // Liste des utilisateurs (seulement les noms)
+app.get('/api/users', verifierToken, (req, res) => {
+  bdd.query("SELECT username FROM users;", (err, results) => {
+    if (err) { console.log(err); return res.status(500).json({ error: err.message }); }
+    return res.json({ users: results });
+  });
+});
 });
 
 // Changer le nom d'utilisateur
